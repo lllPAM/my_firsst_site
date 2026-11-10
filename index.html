@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="K4D4K — студент РТУ МИРЭА, будущий специалист по кибербезопасности. CTF, хакатоны, write-up’ы.">
+<title>K4D4K — кибербезопасность, CTF, резюме</title>
+<style>
+:root{
+  --bg:#0b0f0c;--panel:#121a14;--ink:#e6efe4;--muted:#8a9a8a;--line:#223025;--acc:#d5f66b;--acc2:#7ee787;--accink:#10170b;
+  color-scheme:dark;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){--bg:#f5f4ef;--panel:#e9ebdf;--ink:#20231e;--muted:#6a6e63;--line:#d3d6c9;--acc:#4f7a14;--acc2:#3d6a12;--accink:#fff;color-scheme:light}
+}
+:root[data-theme="light"]{--bg:#f5f4ef;--panel:#e9ebdf;--ink:#20231e;--muted:#6a6e63;--line:#d3d6c9;--acc:#4f7a14;--acc2:#3d6a12;--accink:#fff;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0b0f0c;--panel:#121a14;--ink:#e6efe4;--muted:#8a9a8a;--line:#223025;--acc:#d5f66b;--acc2:#7ee787;--accink:#10170b;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.6}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+.mono{font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace}
+.wrap{max-width:1180px;margin:0 auto;padding:0 5%}
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:22px;padding-bottom:22px;gap:20px}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.5px}
+.logo i{color:var(--acc);font-style:normal}
+nav{display:flex;gap:26px;font-size:13px;color:var(--muted)}
+nav a:hover{color:var(--acc)}
+.tiny{font-size:11px;letter-spacing:1.8px;text-transform:uppercase}
+.status{color:var(--muted);display:flex;align-items:center;gap:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--acc2);box-shadow:0 0 8px var(--acc2)}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:56px;align-items:center;padding:70px 0}
+.eyebrow{color:var(--muted);margin-bottom:22px}
+h1{font-size:clamp(42px,6vw,82px);line-height:1.02;letter-spacing:-3px;font-weight:600;margin:0 0 26px}
+h1 span{color:var(--acc)}
+.intro{max-width:480px;color:var(--muted);font-size:16px;margin:0}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:26px;padding:14px 20px;border:1px solid var(--acc);border-radius:4px;background:var(--acc);color:var(--accink);font-size:13px;font-weight:600}
+.btn.light{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:hover{filter:brightness(1.1)}
+.term{background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:13px}
+.termbar{display:flex;gap:7px;padding:11px 14px;border-bottom:1px solid var(--line)}
+.termbar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.termbody{padding:18px 18px 22px;line-height:1.85;overflow-x:auto;white-space:pre}
+.p{color:var(--acc2)}.k{color:var(--acc)}.c{color:var(--muted)}
+.cursor{display:inline-block;width:8px;height:15px;background:var(--acc);vertical-align:-2px;animation:b 1s steps(1) infinite}
+@keyframes b{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:26px 0}
+.stat{padding-left:26px;border-left:1px solid var(--line)}
+.stat:first-child{padding-left:0;border:0}
+.stat strong{font-size:34px;font-weight:600;letter-spacing:-1px;color:var(--acc)}
+.stat span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.section{padding:70px 0;border-bottom:1px solid var(--line)}
+.head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:34px;gap:16px}
+h2{font-size:34px;letter-spacing:-1.2px;font-weight:600;margin:0}
+.num{font-size:11px;color:var(--muted)}
+.split{display:grid;grid-template-columns:1fr 1.6fr;gap:60px}
+.lead{font-size:20px;margin:0 0 16px}
+.sub{color:var(--muted);font-size:15px;margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.tag{border:1px solid var(--line);border-radius:30px;padding:8px 14px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ctrl{display:flex;align-items:center;gap:10px}
+.ctrl .num{margin-right:8px}
+.arrow{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--ink);font-size:18px;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+.arrow:hover:not(:disabled){border-color:var(--acc);color:var(--acc)}
+.arrow:disabled{opacity:.35;cursor:default}
+.track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.track::-webkit-scrollbar{display:none}
+.track .card{flex:0 0 66%;scroll-snap-align:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:22px}
+.card h3{margin:0 0 6px;font-size:17px}
+.card p{margin:0;color:var(--muted);font-size:14px}
+.card .tiny{color:var(--acc);display:block;margin-bottom:10px}
+.row{display:grid;grid-template-columns:130px 1fr auto;gap:20px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}
+.row h3{margin:0;font-size:18px;font-weight:600}
+.row p{margin:3px 0 0;color:var(--muted);font-size:14px}
+.row .when{color:var(--muted);font-size:12px}
+.badge{border:1px solid var(--acc);color:var(--acc);border-radius:3px;padding:4px 10px;font-size:11px;white-space:nowrap}
+.todo{border-bottom:1px dashed var(--acc);color:var(--acc)}
+.stage{display:flex;gap:18px;align-items:stretch;padding:44px 0}
+.ring{position:absolute;inset:0;z-index:0;border:1px solid var(--acc);border-radius:12px;pointer-events:none;opacity:0;transition:transform .7s cubic-bezier(.25,.8,.25,1),opacity .7s ease}
+.js .stage{opacity:0;transform:translateY(28px);transition:opacity 1.3s ease,transform 1.3s cubic-bezier(.25,.8,.25,1)}
+.js .stage.in{opacity:1;transform:none}
+.deck{position:relative;flex:1;height:400px}
+.cert{position:absolute;inset:0;will-change:transform,filter,opacity;transition:transform .7s cubic-bezier(.25,.8,.25,1),opacity .7s ease,filter .7s ease}
+.certnav{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.certcount{font-size:12px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.cert,.ring,.js .stage{transition:none}.js .stage{opacity:1;transform:none}}
+.certin{height:100%;overflow:hidden;display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;box-shadow:0 18px 40px -22px rgba(0,0,0,.55)}
+.frame{aspect-ratio:3/2;border:1px dashed var(--line);border-radius:8px;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:12px;line-height:1.6;padding:12px}
+.frame img{width:100%;height:100%;object-fit:contain;display:block}
+.certmeta h3{margin:8px 0;font-size:22px;font-weight:600}
+.certmeta p{margin:0;color:var(--muted);font-size:14px}
+.certmeta .tiny{color:var(--acc)}
+.entry{padding-bottom:26px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+.entry:last-child{border:0;margin:0;padding:0}
+.entry h3{font-size:20px;font-weight:600;margin:8px 0}
+.entry p{margin:0;color:var(--muted);font-size:14px}
+.entry .tiny{color:var(--acc)}
+.contact{padding:64px 0;display:flex;justify-content:space-between;gap:30px;align-items:center}
+.contact h2{font-size:clamp(32px,5vw,58px);letter-spacing:-2px;max-width:640px}
+.links{display:flex;flex-direction:column;gap:10px;min-width:230px}
+.links a{display:flex;justify-content:space-between;border:1px solid var(--line);border-radius:4px;padding:12px 16px;font-size:13px}
+.links a:hover{border-color:var(--acc);color:var(--acc)}
+footer{border-top:1px solid var(--line);padding:22px 0 30px;font-size:11px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+a:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-offset:4px}
+@media (max-width:820px){
+  nav{gap:10px;flex-wrap:wrap;justify-content:flex-end;font-size:12px}.status{display:none}
+  .certin{grid-template-columns:1fr;padding:16px;gap:14px;align-content:start}
+  .deck{height:480px}
+  .stage{gap:10px}
+  .hero{grid-template-columns:1fr;gap:30px;padding:44px 0}
+  .split{grid-template-columns:1fr;gap:22px}
+  .grid{grid-template-columns:1fr}
+  .track .card{flex-basis:88%}
+  .stats{grid-template-columns:1fr 1fr;gap:20px 0}
+  .stat:nth-child(3){padding-left:0;border:0}
+  .row{grid-template-columns:1fr;gap:6px}
+  .section{padding:44px 0}
+  h2{font-size:28px}
+  .contact{display:block}.links{margin-top:26px}
+}
+@media print{
+  :root,:root[data-theme]{--bg:#fff;--panel:#fff;--ink:#000;--muted:#444;--line:#bbb;--acc:#000;--acc2:#000}
+  nav,.actions,.term,.status,.arrow{display:none}
+  .track{flex-wrap:wrap;overflow:visible}
+  .track .card{flex-basis:calc(50% - 8px)}
+  .deck{height:auto}
+  .stage,.js .stage{display:block;padding:0;opacity:1!important;transform:none!important}
+  .certnav,.ring{display:none}
+  .cert{position:static!important;transform:none!important;opacity:1!important;filter:none!important;margin-bottom:12px;break-inside:avoid}
+  .certin{height:auto;box-shadow:none;grid-template-columns:1fr 1fr}
+  .hero,.split{display:block}.hero{padding:20px 0}
+  .section{padding:18px 0;break-inside:avoid}
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .contact{padding:20px 0}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#">K4D4K<i>.</i></a>
+    <nav aria-label="Навигация">
+      <a href="#about">Обо мне</a>
+      <a href="#skills">Навыки</a>
+      <a href="#ctf">CTF</a>
+      <a href="#projects">Проекты</a>
+      <a href="#certs">Сертификаты</a>
+      <a href="#experience">Опыт</a>
+    </nav>
+    <span class="status tiny"><i class="dot"></i>Москва · 2026</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="eyebrow tiny mono">Резюме / Кибербезопасность</div>
+      <h1>Ломаю,<br>чтобы <span>защищать.</span></h1>
+      <p class="intro">Я K4D4K. Студент РТУ МИРЭА, участвую в CTF и хакатонах и развиваюсь в сфере кибербезопасности. Люблю разбирать задачи до последнего флага и объяснять решения другим.</p>
+      <div class="actions">
+        <a class="btn" href="#ctf">Мои CTF ↗</a>
+        <button class="btn light" onclick="window.print()">Резюме в PDF ↓</button>
+      </div>
+    </div>
+    <div class="term mono" role="img" aria-label="Окно терминала с краткой информацией обо мне">
+      <div class="termbar"><i></i><i></i><i></i></div>
+      <div class="termbody"><span class="p">K4D4K@mirea</span>:<span class="k">~</span>$ whoami
+<span class="c">student / future security engineer</span>
+<span class="p">K4D4K@mirea</span>:<span class="k">~</span>$ cat focus.txt
+<span class="c">web · crypto · forensics · osint</span>
+<span class="p">K4D4K@mirea</span>:<span class="k">~</span>$ ls events/
+<span class="c">ctf/  hackathons/  writeups/</span>
+<span class="p">K4D4K@mirea</span>:<span class="k">~</span>$ echo $FLAG
+<span class="k">flag{start_of_the_journey}</span>
+<span class="p">K4D4K@mirea</span>:<span class="k">~</span>$ <span class="cursor"></span></div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><strong class="mono">[N]</strong><span>CTF-соревнований</span></div>
+    <div class="stat"><strong class="mono">[N]</strong><span>хакатонов</span></div>
+    <div class="stat"><strong class="mono">[N]</strong><span>решённых тасков</span></div>
+    <div class="stat"><strong>1 курс</strong><span>РТУ МИРЭА · Защита информации</span></div>
+  </div>
+
+  <section class="section split" id="about">
+    <div>
+      <span class="num mono">01 / ЗНАКОМСТВО</span>
+      <h2 style="margin-top:16px">Обо мне</h2>
+    </div>
+    <div>
+      <p class="lead">Меня привлекает логика взлома и защиты: как устроена система, где в ней слабое место и как его закрыть.</p>
+      <p class="sub">Учусь в РТУ МИРЭА по программе «Организация и технологии защиты информации». Практикуюсь на CTF и хакатонах, а ещё работаю наставником по информатике в «Профиматике», поэтому умею объяснять сложное простым языком. Мой путь: от учебных задач к реальным уязвимостям и ответственному раскрытию.</p>
+      <div class="tags">
+        <span class="tag">CTF</span><span class="tag">Хакатоны</span><span class="tag">Работа в команде</span><span class="tag">Защита информации</span><span class="tag">Наставничество</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <div class="head"><h2>Направления</h2><span class="num mono">02 / НАВЫКИ</span></div>
+    <div class="grid">
+      <div class="card"><span class="tiny mono">Web</span><h3>Веб-безопасность</h3><p>SQLi, XSS, IDOR, SSRF, авторизация и сессии. Burp Suite, DevTools.</p></div>
+      <div class="card"><span class="tiny mono">Crypto</span><h3>Криптография</h3><p>Классические шифры, RSA, хеши, XOR. Python для автоматизации.</p></div>
+      <div class="card"><span class="tiny mono">Forensics</span><h3>Форензика и стеганография</h3><p>Анализ файлов, дампов трафика и метаданных. Wireshark, exiftool.</p></div>
+      <div class="card"><span class="tiny mono">Reverse / Pwn</span><h3>Реверс-инжиниринг</h3><p>Основы C++ и ассемблера, анализ бинарников. Ghidra, gdb.</p></div>
+      <div class="card"><span class="tiny mono">OSINT</span><h3>Разведка по открытым данным</h3><p>Поиск и верификация информации, анализ источников.</p></div>
+      <div class="card"><span class="tiny mono">Tools</span><h3>Инструменты</h3><p>Linux, Python, Git, Nmap, Docker, ИИ-инструменты и анализ данных.</p></div>
+    </div>
+    <p class="sub mono" style="margin-top:18px;font-size:12px">// Оставьте только то, что действительно умеете. Остальное удалите.</p>
+  </section>
+
+  <section class="section" id="ctf">
+    <div class="head"><h2>CTF и хакатоны</h2><span class="num mono">03 / УЧАСТИЕ</span></div>
+    <div>
+      <div class="row">
+        <span class="when mono">20XX</span>
+        <div><h3><span class="todo">Название CTF</span></h3><p>Команда <span class="todo">название</span> · решено <span class="todo">N</span> тасков (web, crypto, forensics).</p></div>
+        <span class="badge mono">XX место</span>
+      </div>
+      <div class="row">
+        <span class="when mono">20XX</span>
+        <div><h3><span class="todo">Название CTF</span></h3><p>Индивидуальное участие · категории и ключевые решения.</p></div>
+        <span class="badge mono">XX место</span>
+      </div>
+      <div class="row">
+        <span class="when mono">20XX</span>
+        <div><h3><span class="todo">Название хакатона</span></h3><p>Роль в команде, задача, технологии и результат.</p></div>
+        <span class="badge mono">Финалист</span>
+      </div>
+    </div>
+    <p class="sub mono" style="margin-top:18px;font-size:12px">// Подчёркнутые поля замените на свои данные. Ссылки на CTFtime и профиль на платформах добавьте в блок контактов.</p>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="head"><h2>Write-up’ы и проекты</h2><div class="ctrl"><span class="num mono">04 / ПРАКТИКА</span><button class="arrow" id="prev" type="button" aria-label="Предыдущий проект">←</button><button class="arrow" id="next" type="button" aria-label="Следующий проект">→</button></div></div>
+    <div class="track" id="track" tabindex="0" role="region" aria-label="Проекты">
+      <div class="card"><span class="tiny mono">Write-up</span><h3><span class="todo">Название таска</span></h3><p>Как искал уязвимость, какой эксплойт собрал и как получил флаг. Ссылка на разбор.</p></div>
+      <div class="card"><span class="tiny mono">Проект</span><h3><span class="todo">Свой инструмент или лаборатория</span></h3><p>Домашняя лаба, скрипт или сканер: задача, стек, результат. Ссылка на GitHub.</p></div>
+      <div class="card"><span class="tiny mono">Хакатон</span><h3><span class="todo">Проект с хакатона</span></h3><p>Какую проблему решали, ваша роль в команде, стек и результат. Ссылка на репозиторий или демо.</p></div>
+      <div class="card"><span class="tiny mono">Исследование</span><h3><span class="todo">Найденная уязвимость или разбор</span></h3><p>Что нашли, как воспроизвели и как исправили. Если было ответственное раскрытие, укажите это.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="certs">
+    <div class="head"><h2>Сертификаты</h2><span class="num mono">05 / ДОСТИЖЕНИЯ</span></div>
+    <div class="stage">
+    <div class="deck" id="stack" tabindex="0" role="region" aria-label="Сертификаты, листайте стрелками вверх и вниз">
+      <i class="ring"></i><i class="ring"></i><i class="ring"></i><i class="ring"></i>
+      <article class="cert" style="--i:0"><div class="certin">
+        <figure class="frame" style="margin:0"><div class="mono">Здесь будет картинка сертификата<br>соотношение 3:2</div></figure>
+        <div class="certmeta"><span class="tiny mono">20XX · Организатор</span><h3><span class="todo">Название сертификата</span></h3><p>За что выдан, например участие в CTF или завершённый курс. При наличии добавьте ссылку для проверки.</p></div>
+      </div></article>
+      <article class="cert" style="--i:1"><div class="certin">
+        <figure class="frame" style="margin:0"><div class="mono">Здесь будет картинка сертификата<br>соотношение 3:2</div></figure>
+        <div class="certmeta"><span class="tiny mono">20XX · Организатор</span><h3><span class="todo">Название сертификата</span></h3><p>За что выдан, например участие в CTF или завершённый курс. При наличии добавьте ссылку для проверки.</p></div>
+      </div></article>
+      <article class="cert" style="--i:2"><div class="certin">
+        <figure class="frame" style="margin:0"><div class="mono">Здесь будет картинка сертификата<br>соотношение 3:2</div></figure>
+        <div class="certmeta"><span class="tiny mono">20XX · Организатор</span><h3><span class="todo">Название сертификата</span></h3><p>За что выдан, например участие в CTF или завершённый курс. При наличии добавьте ссылку для проверки.</p></div>
+      </div></article>
+      <article class="cert" style="--i:3"><div class="certin">
+        <figure class="frame" style="margin:0"><div class="mono">Здесь будет картинка сертификата<br>соотношение 3:2</div></figure>
+        <div class="certmeta"><span class="tiny mono">20XX · Организатор</span><h3><span class="todo">Название сертификата</span></h3><p>За что выдан, например участие в CTF или завершённый курс. При наличии добавьте ссылку для проверки.</p></div>
+      </div></article>
+    </div>
+    <div class="certnav"><button class="arrow" id="cup" type="button" aria-label="Предыдущий сертификат">↑</button><span class="certcount mono" id="ccount">1 / 4</span><button class="arrow" id="cdown" type="button" aria-label="Следующий сертификат">↓</button></div>
+    </div>
+    <p class="sub mono" style="margin-top:10px;font-size:12px">// Пришлите картинки, я вставлю их в рамки. Лишние карточки можно убрать.</p>
+  </section>
+
+  <section class="section split" id="experience">
+    <div>
+      <span class="num mono">06 / ОПЫТ И УЧЁБА</span>
+      <h2 style="margin-top:16px">Мой путь</h2>
+    </div>
+    <div>
+      <article class="entry">
+        <span class="tiny mono">20XX — настоящее время</span>
+        <h3>Участник CTF и хакатонов</h3>
+        <p>Решаю задачи по веб-безопасности, криптографии и форензике, работаю в команде и готовлю разборы.</p>
+      </article>
+      <article class="entry">
+        <span class="tiny mono">Профиматика · Настоящее время</span>
+        <h3>Наставник по информатике</h3>
+        <p>Помогаю ученикам ориентироваться в обучении, отвечаю на вопросы и поддерживаю связь с учебной группой.</p>
+      </article>
+      <article class="entry">
+        <span class="tiny mono">РТУ МИРЭА · 1 курс</span>
+        <h3>Организация и технологии защиты информации</h3>
+        <p>Программирование, математика и основы защиты информации. Курсы и сертификаты по безопасности добавьте сюда.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="contact" id="contacts">
+    <div>
+      <span class="tiny mono" style="color:var(--muted)">07 / КОНТАКТЫ</span>
+      <h2 style="margin-top:16px">Давайте решать задачи вместе.</h2>
+    </div>
+    <div class="links">
+      <a href="mailto:you@example.com">Email <span>↗</span></a>
+      <a href="#">Telegram <span>↗</span></a>
+      <a href="#">GitHub <span>↗</span></a>
+      <a href="#">CTFtime / HackTheBox <span>↗</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 K4D4K</span>
+    <span class="mono">Ломать. Учиться. Защищать.</span>
+    <a href="#">Наверх ↑</a>
+  </div>
+</footer>
+<script>
+(function(){
+  var t=document.getElementById('track'),p=document.getElementById('prev'),n=document.getElementById('next');
+  if(!t||!p||!n)return;
+  function u(){p.disabled=t.scrollLeft<=2;n.disabled=t.scrollLeft+t.clientWidth>=t.scrollWidth-2}
+  function go(d){t.scrollBy({left:d*t.clientWidth*0.7,behavior:'smooth'})}
+  p.onclick=function(){go(-1)};
+  n.onclick=function(){go(1)};
+  t.addEventListener('scroll',u,{passive:true});
+  window.addEventListener('resize',u);
+  t.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'){go(1);e.preventDefault()}
+    if(e.key==='ArrowLeft'){go(-1);e.preventDefault()}
+  });
+  u();
+})();
+</script>
+<script>
+(function(){
+  var deck=document.getElementById('stack'),up=document.getElementById('cup'),down=document.getElementById('cdown'),cnt=document.getElementById('ccount');
+  if(!deck||!up||!down)return;
+  var stage=deck.parentNode;
+  document.documentElement.classList.add('js');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){stage.classList.add('in');io.disconnect()}},{threshold:.15});
+    io.observe(stage);
+  }else{stage.classList.add('in')}
+  var cards=[].slice.call(deck.querySelectorAll('.cert')),cur=0,n=cards.length;
+  var rings=[].slice.call(deck.querySelectorAll('.ring'));
+  function render(){
+    cards.forEach(function(c,i){
+      var d=cur-i,on=d===0;
+      c.style.transform='scale('+(on?1:0.9)+')';
+      c.style.opacity=on?1:0;
+      c.style.filter='saturate('+(on?1:0.35)+')';
+      c.style.zIndex=on?5:(d>0?8:1);
+      c.setAttribute('aria-hidden',d===0?'false':'true');
+    });
+    rings.forEach(function(r,i){
+      var k=cur-i,a=Math.abs(k);
+      if(a>=1){
+        var kk=Math.min(a,3),s=k>0?-1:1;
+        r.style.transform='translateY('+(s*20*kk)+'px) scale('+(1-0.03*kk).toFixed(2)+')';
+        r.style.opacity=a<=3?[0,.55,.35,.2][a]:0;
+      }else{
+        r.style.transform='translateY(0) scale(1)';
+        r.style.opacity=0;
+      }
+    });
+    up.disabled=cur===0;down.disabled=cur===n-1;
+    cnt.textContent=(cur+1)+' / '+n;
+  }
+  function go(s){cur=Math.max(0,Math.min(n-1,cur+s));render()}
+  up.onclick=function(){go(-1)};
+  down.onclick=function(){go(1)};
+  deck.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){go(1);e.preventDefault()}
+    if(e.key==='ArrowUp'){go(-1);e.preventDefault()}
+  });
+  render();
+})();
+</script>
+</body>
+</html>
